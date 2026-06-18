@@ -1,8 +1,82 @@
-<section class="memoria-container">
-    <h2>Jogo da Memória: Detetive Digital</h2>
-    <p>Combine as cartas correspondentes para fixar os conceitos de combate às fake news!</p>
-    
-    <div class="memoria-grid" id="grid-memoria"></div>
-    
-    <p class="placar">Pares encontrados: <span id="pares-encontrados">0</span>/4</p>
-</section>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Cidadania Digital 2026</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Cabeçalho Principal -->
+    <header class="main-header">
+        <h1>Cidadania Digital & IA</h1>
+        <button id="toggle-dark-mode" class="btn-accessibility" aria-label="Alternar modo escuro">🌓 Modo Escuro</button>
+    </header>
+
+    <!-- Conteúdo Principal Semântico -->
+    <main class="container">
+        
+        <!-- Seção 1: Introdução Teórica -->
+        <section class="card banner shadow">
+            <h2>O Impacto das Deepfakes e da Desinformação</h2>
+            <p>As <strong>deepfakes</strong> utilizam inteligência artificial para adulterar vídeos e áudios, criando conteúdos falsos hiper-realistas. Compreender esses mecanismos é fundamental para exercer uma cidadania digital segura e ética.</p>
+        </section>
+
+        <!-- Seção 2: Verificador de Links Teórico -->
+        <section class="card shadow">
+            <h2>🔍 Analisador de Links Suspeitos</h2>
+            <p>Insira a URL de uma notícia para verificar se ela apresenta padrões comuns de portais de desinformação (como falta de protocolo seguro HTTPS ou domínios duplicados).</p>
+            
+            <form id="url-form" novalidate>
+                <div class="form-group">
+                    <label for="user-url">Endereço do Link (URL):</label>
+                    <input type="url" id="user-url" placeholder="https://exemplo.com" required>
+                </div>
+                <button type="submit" class="btn-submit">Analisar Link</button>
+            </form>
+            <div id="url-feedback" class="feedback-box hidden"></div>
+        </section>
+
+        <!-- Seção 3: Jogo Interativo (Quiz Anti-Desinformação) -->
+        <section class="card shadow">
+            <h2>🎮 Quiz: Você sabe detectar uma Deepfake?</h2>
+            <p>Teste suas habilidades de análise crítica respondendo às perguntas reais abaixo:</p>
+            
+            <form id="quiz-form">
+                <!-- Pergunta 1 -->
+                <div class="quiz-question">
+                    <p class="question-text">1. Qual destes sinais costuma denunciar uma deepfake em vídeo?</p>
+                    <label class="radio-label">
+                        <input type="radio" name="q1" value="correto"> Piscadas de olhos não naturais ou ausência de sincronia nos lábios.
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="q1" value="errado"> Alta resolução de imagem e áudio perfeitamente limpo.
+                    </label>
+                </div>
+
+                <!-- Pergunta 2 -->
+                <div class="quiz-question">
+                    <p class="question-text">2. O que você deve fazer ao receber uma notícia alarmante com um link desconhecido?</p>
+                    <label class="radio-label">
+                        <input type="radio" name="q2" value="errado"> Compartilhar imediatamente em grupos para alertar conhecidos.
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="q2" value="correto"> Cruzar os dados com veículos de imprensa confiáveis antes de repassar.
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">Enviar Respostas</button>
+            </form>
+            <div id="quiz-feedback" class="feedback-box hidden"></div>
+        </section>
+    </main>
+
+    <!-- Rodapé Semântico -->
+    <footer class="main-footer">
+        <p>&copy; 2026 Portal de Conscientização Comunitária. Desenvolvido para fins educacionais.</p>
+        <p>Tag oficial do projeto: <strong>#cidadaniadigital2026</strong></p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

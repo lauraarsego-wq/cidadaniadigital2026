@@ -1,0 +1,58 @@
+/* --- Jogo da Memória --- */
+.memoria-container {
+    background-color: var(--bg-card);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.memoria-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.carta {
+    width: 80px;
+    height: 80px;
+    background-color: var(--cor-primaria);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.carta:hover {
+    transform: scale(1.05);
+}
+
+/* Estado da carta quando virada ou combinada */
+.carta.virada, .carta.combinada {
+    background-color: var(--cor-sucesso);
+    color: white;
+}
+
+.placar {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 600px) {
+    .carta {
+        width: 70px;
+        height: 70px;
+        font-size: 0.7rem;
+    }
+}

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cidadania Digital & IA</title>
     <link rel="stylesheet" href="style.css">
+    <!-- O atributo defer garante que o JS só rode APÓS o HTML carregar por completo -->
+    <script src="script.js" defer></script>
 </head>
 <body>
 
@@ -13,7 +15,7 @@
     </header>
 
     <main class="container">
-        <!-- Hero & Contextualização -->
+        <!-- Seção Principal / Banner -->
         <section class="hero">
             <h1>Cidadania Digital & IA</h1>
             <h2>O Impacto das Deepfakes e da Desinformação</h2>
@@ -21,7 +23,7 @@
             <p>As deepfakes utilizam inteligência artificial para adulterar vídeos e áudios, criando conteúdos falsos hiper-realistas. Compreender esses mecanismos é fundamental para exercer uma cidadania digital segura e ética.</p>
         </section>
 
-        <!-- NOVO: Seção de Artigos Informativos -->
+        <!-- Seção de Artigos Informativos -->
         <section class="artigos">
             <h3>📚 Artigos em Destaque</h3>
             <div class="grid-artigos">
@@ -38,15 +40,15 @@
             </div>
         </section>
 
-        <!-- NOVO: Jogo da Memória Temático -->
+        <!-- Jogo da Memória Temático -->
         <section class="jogo-container">
             <h3>🎮 Jogo da Memória: Segurança Digital</h3>
             <p>Encontre os pares de símbolos tecnológicos e teste sua atenção contra truques visuais digitais!</p>
             <div class="memoria-grid" id="memoria-board"></div>
-            <p id="memoria-mensagem" class="resultado-box hidden"></p>
+            <div id="memoria-mensagem" class="resultado-box hidden"></div>
         </section>
 
-        <!-- Ferramenta de Análise -->
+        <!-- Ferramenta de Análise de Links -->
         <section class="ferramenta">
             <h3>🔍 Analisador de Links Suspeitos</h3>
             <p>Insira a URL de uma notícia para verificar se ela apresenta padrões comuns de portais de desinformação.</p>
@@ -64,9 +66,9 @@
         <section class="quiz">
             <h3>✍️ Quiz Crítico</h3>
             <p>Teste suas habilidades de análise contra a desinformação:</p>
-            <form id="quiz-form">
+            <form id="quiz-form" onsubmit="event.preventDefault();">
                 <div class="quiz-item">
-                    <p class="pergunta">1. Qual destes sinais costuma denunciar uma deepfake em vídeo?</p>
+                    <p class="pergunta">1. Qual destes sinais costuma anunciar uma deepfake em vídeo?</p>
                     <label class="radio-label">
                         <input type="radio" name="p1" value="correto"> 
                         <span>Piscadas de olhos não naturais ou ausência de sincronia nos lábios.</span>
@@ -87,6 +89,5 @@
         <p class="tag">Tag oficial do projeto: <strong>#cidadaniadigital2026</strong></p>
     </footer>
 
-    <script src="script.js"></script>
 </body>
 </html>

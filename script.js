@@ -1,46 +1,93 @@
-// Controle do Modo Escuro
+// Alternador de Modo Escuro
 const btnMode = document.getElementById('toggle-dark-mode');
 btnMode.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
 });
 
-// Manipulação do DOM: Validador de Links Simples
+// LÓGICA DO JOGO DA MEMÓRIA
+const icones = ['🤖', '🤖', '🛡️', '🛡️', '🔍', '🔍', '📱', '📱', '🔐', '🔐', '📡', '📡'];
+let cartasViradas = [];
+let acertosMemoria = 0;
+
+function criarJogo() {
+    const board = document.getElementById('memoria-board');
+    // Embaralhar ícones
+    const iconesEmbaralhados = icones.sort(() => Math.random() - 0.5);
+    
+    board.innerHTML = '';
+    iconesEmbaralhados.forEach((icone, index) => {
+        const elementoCarta = document.createElement('div');
+        elementoCarta.classList.add('carta');
+        elementoCarta.dataset.value = icone;
+        elementoCarta.dataset.index = index;
+        elementoCarta.innerText = icone;
+        elementoCarta.addEventListener('click', virarCarta);
+        board.appendChild(elementoCarta);
+    });
+}
+
+function virarCarta(e) {
+    const cartaClicada = e.target;
+    
+    if (cartasViradas.length < 2 && !cartaClicada.classList.contains('virada') && !cartaClicada.classList.contains('par-encontrado')) {
+        cartaClicada.classList.add('virada');
+        cartasViradas.push(cartaClicada);
+        
+        if (cartasViradas.length === 2) {
+            checarPar();
+        }
+    }
+}
+
+function checarPar() {
+    const [carta1, carta2] = cartasViradas;
+    
+    if (carta1.dataset.value === carta2.dataset.value) {
+        carta1.classList.add('par-encontrado');
+        carta2.classList.add('par-encontrado');
+        acertosMemoria++;
+        cartasViradas = [];
+        
+        if (acertosMemoria === icones.length / 2) {
+            const msg = document.getElementById('memoria-mensagem');
+            msg.classList.remove('hidden');
+            msg.innerHTML = "🎉 Parabéns! Você encontrou todas as conexões seguras!";
+        }
+    } else {
+        setTimeout(() => {
+            carta1.classList.remove('virada');
+            carta2.classList.remove('virada');
+            cartasViradas = [];
+        }, 1000);
+    }
+}
+
+// Inicializar Jogo da Memória
+criarJogo();
+
+// Validador de Links
 function analisarLink() {
     const urlInput = document.getElementById('url-input').value;
     const resultadoDiv = document.getElementById('resultado-link');
-    
     if (!urlInput) return;
-
     resultadoDiv.classList.remove('hidden');
-    // Simulação básica de verificação exigida no escopo do projeto
-    if (urlInput.includes("fake") || urlInput.includes("verdade-urgente")) {
+    if (urlInput.includes("fake") || urlInput.includes("urgente")) {
         resultadoDiv.style.borderColor = "#dc3545";
-        resultadoDiv.innerHTML = "⚠️ Atenção: Este link contém padrões frequentemente associados a redes de desinformação automatizada. Verifique fontes oficiais.";
+        resultadoDiv.innerHTML = "⚠️ Padrão suspeito detectado na URL.";
     } else {
         resultadoDiv.style.borderColor = "#28a745";
-        resultadoDiv.innerHTML = "✅ O formato do link parece padrão. Lembre-se sempre de cruzar as informações com outras mídias confiáveis.";
+        resultadoDiv.innerHTML = "✅ Formato padrão estruturado.";
     }
 }
 
-// Manipulação do DOM: Validador do Quiz
+// Validador do Quiz
 function validarQuiz() {
     const p1 = document.querySelector('input[name="p1"]:checked');
-    const p2 = document.querySelector('input[name="p2"]:checked');
     const resultadoDiv = document.getElementById('resultado-quiz');
-
-    if (!p1 || !p2) {
-        resultadoDiv.classList.remove('hidden');
-        resultadoDiv.style.borderColor = "#ffc107";
-        resultadoDiv.innerHTML = "⚠️ Por favor, responda a todas as perguntas antes de enviar.";
-        return;
-    }
-
-    let acertos = 0;
-    if (p1.value === "correto") acertos++;
-    if (p2.value === "correto") acertos++;
-
     resultadoDiv.classList.remove('hidden');
-    resultadoDiv.style.borderColor = "#28a745";
-    resultadoDiv.innerHTML = `📊 Você acertou ${acertos} de 2 perguntas! ${acertos === 2 ? 'Parabéns! Você tem um ótimo olhar crítico.' : 'Continue estudando os sinais para não ser enganado.'}`;
+    if (p1 && p1.value === "correto") {
+        resultadoDiv.innerHTML = "📊 Resposta Correta! Você conhece os sinais críticos.";
+    } else {
+        resultadoDiv.innerHTML = "❌ Resposta incorreta ou vazia. Revise os conceitos.";
+    }
 }
-

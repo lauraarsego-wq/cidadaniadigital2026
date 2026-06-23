@@ -1,93 +1,126 @@
-// Alternador de Modo Escuro
-const btnMode = document.getElementById('toggle-dark-mode');
-btnMode.addEventListener('click', () => {
-    document.body.classList.toggle('dark-mode');
-});
+/* ==========================================================================
+   AULA 3 & 4: INTERATIVIDADE E MANIPULAÇÃO DINÂMICA DO DOM
+   ========================================================================== */
 
-// LÓGICA DO JOGO DA MEMÓRIA
-const icones = ['🤖', '🤖', '🛡️', '🛡️', '🔍', '🔍', '📱', '📱', '🔐', '🔐', '📡', '📡'];
-let cartasViradas = [];
-let acertosMemoria = 0;
-
-function criarJogo() {
-    const board = document.getElementById('memoria-board');
-    // Embaralhar ícones
-    const iconesEmbaralhados = icones.sort(() => Math.random() - 0.5);
+// Aguarda o DOM estar 100% carregado antes de executar o script
+document.addEventListener('DOMContentLoaded', () => {
     
-    board.innerHTML = '';
-    iconesEmbaralhados.forEach((icone, index) => {
-        const elementoCarta = document.createElement('div');
-        elementoCarta.classList.add('carta');
-        elementoCarta.dataset.value = icone;
-        elementoCarta.dataset.index = index;
-        elementoCarta.innerText = icone;
-        elementoCarta.addEventListener('click', virarCarta);
-        board.appendChild(elementoCarta);
-    });
-}
+    // 1. CONTROLE DO MODO ESCURO
+    const btnMode = document.getElementById('toggle-dark-mode');
+    if (btnMode) {
+        btnMode.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+        });
+    }
 
-function virarCarta(e) {
-    const cartaClicada = e.target;
-    
-    if (cartasViradas.length < 2 && !cartaClicada.classList.contains('virada') && !cartaClicada.classList.contains('par-encontrado')) {
+    // 2. LÓGICA DO JOGO DA MEMÓRIA TEMÁTICO
+    const icones = ['🤖', '🤖', '🛡️', '🛡️', '🔍', '🔍', '📱', '📱', '🔐', '🔐', '📡', '📡'];
+    let cartasViradas = [];
+    let acertosMemoria = 0;
+    let jogoBloqueado = false;
+
+    function criarJogo() {
+        const board = document.getElementById('memoria-board');
+        if (!board) return;
+
+        // Embaralha os ícones de forma aleatória
+        const iconesEmbaralhados = icones.sort(() => Math.random() - 0.5);
+        
+        board.innerHTML = '';
+        iconesEmbaralhados.forEach((icone, index) => {
+            const elementoCarta = document.createElement('div');
+            elementoCarta.classList.add('carta');
+            elementoCarta.dataset.value = icone;
+            elementoCarta.dataset.index = index;
+            elementoCarta.innerText = icone;
+            elementoCarta.addEventListener('click', virarCarta);
+            board.appendChild(elementoCarta);
+        });
+    }
+
+    function virarCarta(e) {
+        const cartaClicada = e.target;
+        
+        // Evita cliques múltiplos na mesma carta ou com o tabuleiro bloqueado
+        if (jogoBloqueado) return;
+        if (cartaClicada.classList.contains('virada') || cartaClicada.classList.contains('par-encontrado')) return;
+
         cartaClicada.classList.add('virada');
         cartasViradas.push(cartaClicada);
         
         if (cartasViradas.length === 2) {
+            jogoBloqueado = true; // Bloqueia novos cliques até processar o par
             checarPar();
         }
     }
-}
 
-function checarPar() {
-    const [carta1, carta2] = cartasViradas;
-    
-    if (carta1.dataset.value === carta2.dataset.value) {
-        carta1.classList.add('par-encontrado');
-        carta2.classList.add('par-encontrado');
-        acertosMemoria++;
-        cartasViradas = [];
+    function checarPar() {
+        const [carta1, carta2] = cartasViradas;
         
-        if (acertosMemoria === icones.length / 2) {
-            const msg = document.getElementById('memoria-mensagem');
-            msg.classList.remove('hidden');
-            msg.innerHTML = "🎉 Parabéns! Você encontrou todas as conexões seguras!";
-        }
-    } else {
-        setTimeout(() => {
-            carta1.classList.remove('virada');
-            carta2.classList.remove('virada');
+        if (carta1.dataset.value === carta2.dataset.value) {
+            carta1.classList.add('par-encontrado');
+            carta2.classList.add('par-encontrado');
+            acertosMemoria++;
             cartasViradas = [];
-        }, 1000);
+            jogoBloqueado = false;
+            
+            if (acertosMemoria === icones.length / 2) {
+                const msg = document.getElementById('memoria-mensagem');
+                if (msg) {
+                    msg.classList.remove('hidden');
+                    msg.innerHTML = "🎉 Parabéns! Você encontrou todas as conexões seguras!";
+                }
+            }
+        } else {
+            // Se as cartas forem diferentes, vira de volta após 1 segundo
+            setTimeout(() => {
+                carta1.classList.remove('virada');
+                carta2.classList.remove('virada');
+                cartasViradas = [];
+                jogoBloqueado = false;
+            }, 1000);
+        }
     }
-}
 
-// Inicializar Jogo da Memória
-criarJogo();
+    // Inicializa o jogo automaticamente ao abrir a página
+    criarJogo();
+});
 
-// Validador de Links
+// 3. FERRAMENTA: ANALISADOR DE LINKS SUSPEITOS
 function analisarLink() {
-    const urlInput = document.getElementById('url-input').value;
+    const urlInput = document.getElementById('url-input');
     const resultadoDiv = document.getElementById('resultado-link');
-    if (!urlInput) return;
+    
+    if (!urlInput || !resultadoDiv) return;
+    
+    const valorUrl = urlInput.value.trim();
+    if (!valorUrl) return;
+
     resultadoDiv.classList.remove('hidden');
-    if (urlInput.includes("fake") || urlInput.includes("urgente")) {
+    
+    if (valorUrl.includes("fake") || valorUrl.includes("urgente") || valorUrl.includes("ganhe-dinheiro")) {
         resultadoDiv.style.borderColor = "#dc3545";
-        resultadoDiv.innerHTML = "⚠️ Padrão suspeito detectado na URL.";
+        resultadoDiv.innerHTML = "⚠️ Padrão suspeito detectado na URL. Evite compartilhar links alarmistas sem antes cruzar informações.";
     } else {
         resultadoDiv.style.borderColor = "#28a745";
-        resultadoDiv.innerHTML = "✅ Formato padrão estruturado.";
+        resultadoDiv.innerHTML = "✅ Formato padrão estruturado. Lembre-se sempre de checar fontes jornalísticas confiáveis.";
     }
 }
 
-// Validador do Quiz
+// 4. COMPONENTE: VALIDADOR DO QUIZ CRÍTICO
 function validarQuiz() {
     const p1 = document.querySelector('input[name="p1"]:checked');
     const resultadoDiv = document.getElementById('resultado-quiz');
+    
+    if (!resultadoDiv) return;
+
     resultadoDiv.classList.remove('hidden');
+    
     if (p1 && p1.value === "correto") {
-        resultadoDiv.innerHTML = "📊 Resposta Correta! Você conhece os sinais críticos.";
+        resultadoDiv.style.borderColor = "#28a745";
+        resultadoDiv.innerHTML = "📊 Resposta Correta! Você conhece os sinais críticos visuais para detectar mídias manipuladas.";
     } else {
-        resultadoDiv.innerHTML = "❌ Resposta incorreta ou vazia. Revise os conceitos.";
+        resultadoDiv.style.borderColor = "#dc3545";
+        resultadoDiv.innerHTML = "❌ Resposta incorreta ou vazia. Lembre-se: piscadas não naturais e falhas de áudio denunciam deepfakes.";
     }
 }

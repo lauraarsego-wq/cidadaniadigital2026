@@ -13,12 +13,40 @@
     </header>
 
     <main class="container">
+        <!-- Hero & Contextualização -->
         <section class="hero">
             <h1>Cidadania Digital & IA</h1>
             <h2>O Impacto das Deepfakes e da Desinformação</h2>
+            <div class="banner-image">🤖🛡️🌐</div>
             <p>As deepfakes utilizam inteligência artificial para adulterar vídeos e áudios, criando conteúdos falsos hiper-realistas. Compreender esses mecanismos é fundamental para exercer uma cidadania digital segura e ética.</p>
         </section>
 
+        <!-- NOVO: Seção de Artigos Informativos -->
+        <section class="artigos">
+            <h3>📚 Artigos em Destaque</h3>
+            <div class="grid-artigos">
+                <article class="card-artigo">
+                    <div class="artigo-img">🧠</div>
+                    <h4>Como a IA gera Deepfakes?</h4>
+                    <p>Entenda o uso das redes GAN (Redes Adversárias Generativas), onde duas IAs competem para criar rostos e vozes sintéticas ultra-realistas.</p>
+                </article>
+                <article class="card-artigo">
+                    <div class="artigo-img">📡</div>
+                    <h4>O Perigo dos Bots de Desinformação</h4>
+                    <p>Contas automatizadas em redes sociais conseguem espalhar notícias falsas estruturadas até seis vezes mais rápido do que informações reais.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- NOVO: Jogo da Memória Temático -->
+        <section class="jogo-container">
+            <h3>🎮 Jogo da Memória: Segurança Digital</h3>
+            <p>Encontre os pares de símbolos tecnológicos e teste sua atenção contra truques visuais digitais!</p>
+            <div class="memoria-grid" id="memoria-board"></div>
+            <p id="memoria-mensagem" class="resultado-box hidden"></p>
+        </section>
+
+        <!-- Ferramenta de Análise -->
         <section class="ferramenta">
             <h3>🔍 Analisador de Links Suspeitos</h3>
             <p>Insira a URL de uma notícia para verificar se ela apresenta padrões comuns de portais de desinformação.</p>
@@ -32,12 +60,11 @@
             <div id="resultado-link" class="resultado-box hidden"></div>
         </section>
 
+        <!-- Quiz Interativo -->
         <section class="quiz">
-            <h3>🎮 Quiz: Você sabe detectar uma Deepfake?</h3>
-            <p>Teste suas habilidades de análise crítica respondendo às perguntas reais abaixo:</p>
-            
+            <h3>✍️ Quiz Crítico</h3>
+            <p>Teste suas habilidades de análise contra a desinformação:</p>
             <form id="quiz-form">
-                <!-- Pergunta 1 -->
                 <div class="quiz-item">
                     <p class="pergunta">1. Qual destes sinais costuma denunciar uma deepfake em vídeo?</p>
                     <label class="radio-label">
@@ -49,20 +76,6 @@
                         <span>Alta resolução de imagem e áudio perfeitamente limpo.</span>
                     </label>
                 </div>
-
-                <!-- Pergunta 2 -->
-                <div class="quiz-item">
-                    <p class="pergunta">2. O que você deve fazer ao receber uma notícia alarmante com um link desconhecido?</p>
-                    <label class="radio-label">
-                        <input type="radio" name="p2" value="errado"> 
-                        <span>Compartilhar imediatamente em grupos para alertar conhecidos.</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="p2" value="correto"> 
-                        <span>Cruzar os dados com veículos de imprensa confiáveis antes de repassar.</span>
-                    </label>
-                </div>
-
                 <button type="button" onclick="validarQuiz()" class="btn-primary">Enviar Respostas</button>
             </form>
             <div id="resultado-quiz" class="resultado-box hidden"></div>
